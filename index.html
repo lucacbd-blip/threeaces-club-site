@@ -778,7 +778,7 @@
     '',
     'FACTS:',
     '- Three Aces Italian Canadian Cultural Club was founded in Toronto in 2013 by a group of friends to keep Italian traditions alive and keep families and their children together. It is run by volunteers.',
-    '- You do not have to be Italian. Anyone who appreciates the Italian culture and way of life is welcome.',
+    '- Membership is currently closed. The club is not accepting new members or applications right now. Do not tell visitors they can join. Point them to info@threeaces.ca with any questions.',
     '- Motto: Faith. Loyalty. Honor.',
     '- Everything the club raises goes back into the Annual Picnic, the Christmas Food Drive and the community.',
     '- Annual Picnic: the 10th Annual Three Aces Picnic is in summer 2027. The date is to be announced. It is invite only, for the Three Aces famiglia and supporters. It costs nothing to attend. There is pasta, pizza, espresso and sweets, an old school bocce tournament, a raffle with prizes, a live performer, and a pool and splash pad for kids. Everything is made possible by sponsors.',
@@ -793,7 +793,7 @@
     {k:/picnic|bocce|summer|10th|tenth|invite|pasta|pizza|raffle|splash/i, a:'The 10th Annual Three Aces Picnic is in summer 2027. The date is to be announced. It is invite only, for the Three Aces famiglia and supporters, and it costs nothing to attend. There is pasta, pizza, espresso and sweets, a bocce tournament, a raffle, live music and a pool and splash pad for kids.'},
     {k:/donat|gofundme|give|contribut|deadline|close|raise|food drive|foodbank|food bank|christmas|harvest|philip|neri|charity/i, a:'The 6th Annual Christmas Food Drive supports St. Philip Neri’s Table in Toronto, a partner agency of North York Harvest Food Bank. 100% of donations go to families. The club raised $4,517 in 2025. To donate, use our GoFundMe: https://gofund.me/7698d530b . Contributions close Sunday, December 13, 2026.'},
     {k:/sponsor|advertis|logo|plaque|business|partner/i, a:'Businesses can sponsor the picnic. The minimum is $500 in cash or gift cards, food or entertainment, or raffle prizes. Sponsors get an honourable mention at the picnic, their logo on the invitation, social media, the big screen and this website, plus a custom plaque. Use the Become a Sponsor form on the Sponsors page.'},
-    {k:/join|member|italian|who can|welcome|eligible|belong/i, a:'You do not have to be Italian. Anyone who appreciates the Italian culture and way of life is welcome at our table. To find out more, email info@threeaces.ca.'},
+    {k:/join|member|italian|who can|eligible|belong|sign up|apply|application/i, a:'Membership is currently closed, and the club is not accepting new members right now. Questions? Email info@threeaces.ca.'},
     {k:/founded|history|story|started|when did|who are|about|who we|volunteer|motto|faith/i, a:'Three Aces Italian Canadian Cultural Club was founded in Toronto in 2013 by a group of friends to keep Italian traditions alive and keep families and their children together. It is run by volunteers. Our motto is Faith. Loyalty. Honor. Everything we raise goes back into the picnic, the food drive and the community.'},
     {k:/contact|email|instagram|reach|phone|where|address|located|toronto|social/i, a:'You can reach us at info@threeaces.ca or on Instagram @three_aces_italian (https://www.instagram.com/three_aces_italian/). We are based in Toronto, Ontario.'}
   ];
@@ -835,7 +835,7 @@
   function openPanel(){
     panel.hidden=false; btn.hidden=true;
     if(!opened){ opened=true; add('bot','Ciao! I’m the Three Aces helper. Ask me about the club, the picnic, the food drive or sponsoring.');
-      ['When is the picnic?','How do I donate to the food drive?','How do I become a sponsor?','Who can join the club?'].forEach(function(q){ var b=document.createElement('button'); b.type='button'; b.textContent=q; b.addEventListener('click',function(){ ask(q); }); chips.appendChild(b); }); }
+      ['When is the picnic?','How do I donate to the food drive?','How do I become a sponsor?'].forEach(function(q){ var b=document.createElement('button'); b.type='button'; b.textContent=q; b.addEventListener('click',function(){ ask(q); }); chips.appendChild(b); }); }
     inp.focus();
   }
   btn.addEventListener('click',openPanel);
