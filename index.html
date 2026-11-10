@@ -767,7 +767,6 @@
 </div>
 <script>
 (function(){
-  if(!(window.claude && window.claude.use)) return;
   var btn=document.getElementById('haBtn'), panel=document.getElementById('haPanel'), log=document.getElementById('haLog'),
       form=document.getElementById('haForm'), inp=document.getElementById('haIn'), sendBtn=document.getElementById('haSend'), chips=document.getElementById('haChips');
   var INSTR = [
@@ -788,6 +787,23 @@
     '- Sponsorship: businesses can sponsor the picnic. The minimum is $500 in cash or gift cards, food or entertainment, or raffle prizes. Sponsors get an honourable mention at the picnic, their logo on the invitation and social media, a custom plaque, and their logo on the sponsor roll on the big screen all day and on this website. To sponsor, use the Become a Sponsor form on the Sponsors page of this website.',
     '- Contact: email info@threeaces.ca, Instagram @three_aces_italian (https://www.instagram.com/three_aces_italian/), based in Toronto, Ontario.'
   ].join('\n');
+
+  /* Built-in answers, used on threeaces.ca (no server needed). Inside the claude.ai preview the AI version is used instead. */
+  var FAQ=[
+    {k:/picnic|bocce|summer|10th|tenth|invite|pasta|pizza|raffle|splash/i, a:'The 10th Annual Three Aces Picnic is in summer 2027. The date is to be announced. It is invite only, for the Three Aces famiglia and supporters, and it costs nothing to attend. There is pasta, pizza, espresso and sweets, a bocce tournament, a raffle, live music and a pool and splash pad for kids.'},
+    {k:/donat|gofundme|give|contribut|deadline|close|raise|food drive|foodbank|food bank|christmas|harvest|philip|neri|charity/i, a:'The 6th Annual Christmas Food Drive supports St. Philip Neri’s Table in Toronto, a partner agency of North York Harvest Food Bank. 100% of donations go to families. The club raised $4,517 in 2025. To donate, use our GoFundMe: https://gofund.me/7698d530b . Contributions close Sunday, December 13, 2026.'},
+    {k:/sponsor|advertis|logo|plaque|business|partner/i, a:'Businesses can sponsor the picnic. The minimum is $500 in cash or gift cards, food or entertainment, or raffle prizes. Sponsors get an honourable mention at the picnic, their logo on the invitation, social media, the big screen and this website, plus a custom plaque. Use the Become a Sponsor form on the Sponsors page.'},
+    {k:/join|member|italian|who can|welcome|eligible|belong/i, a:'You do not have to be Italian. Anyone who appreciates the Italian culture and way of life is welcome at our table. To find out more, email info@threeaces.ca.'},
+    {k:/founded|history|story|started|when did|who are|about|who we|volunteer|motto|faith/i, a:'Three Aces Italian Canadian Cultural Club was founded in Toronto in 2013 by a group of friends to keep Italian traditions alive and keep families and their children together. It is run by volunteers. Our motto is Faith. Loyalty. Honor. Everything we raise goes back into the picnic, the food drive and the community.'},
+    {k:/contact|email|instagram|reach|phone|where|address|located|toronto|social/i, a:'You can reach us at info@threeaces.ca or on Instagram @three_aces_italian (https://www.instagram.com/three_aces_italian/). We are based in Toronto, Ontario.'}
+  ];
+  function localSample(msgs){
+    var last=msgs[msgs.length-1].content, i=last.indexOf('Visitor question:\n'); if(i>-1) last=last.slice(i+17);
+    var best=null, bestN=0;
+    FAQ.forEach(function(f){ var m=last.match(new RegExp(f.k.source,'gi')); var n=m?m.length:0; if(n>bestN){ bestN=n; best=f; } });
+    var text=best?best.a:'I don’t have that information. Please email info@threeaces.ca and a member of the club will get back to you.';
+    return new Promise(function(res){ setTimeout(function(){ res({text:text}); },350); });
+  }
   var history=[], busy=false, sample=null, opened=false;
   function add(cls,text){ var d=document.createElement('div'); d.className='ha-m '+cls; render(d,text); log.appendChild(d); log.scrollTop=log.scrollHeight; return d; }
   function render(el,text){
@@ -825,7 +841,11 @@
   btn.addEventListener('click',openPanel);
   document.getElementById('haClose').addEventListener('click',function(){ panel.hidden=true; btn.hidden=false; });
   form.addEventListener('submit',function(e){ e.preventDefault(); var q=inp.value; inp.value=''; ask(q); });
-  try{ window.claude.use('sample').then(function(s){ if(!s) return; sample=s; btn.hidden=!panel.hidden; }).catch(function(){}); }catch(e){}
+  function useLocal(){ if(sample) return; sample=localSample; btn.hidden=!panel.hidden; }
+  try{
+    if(window.claude && window.claude.use){ window.claude.use('sample').then(function(s){ if(s){ sample=s; btn.hidden=!panel.hidden; } else useLocal(); }).catch(useLocal); }
+    else useLocal();
+  }catch(e){ useLocal(); }
 })();
 </script>
 
