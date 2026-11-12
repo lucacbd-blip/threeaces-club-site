@@ -1370,9 +1370,9 @@
     function pad(n){ return ('00'+n).slice(-3); }
     var pic=['g_kids','g_sponsors','g_bocce','g_ironman','g_pasta','g_tent2','g_plaque'].map(function(n){ return ['img/'+n+'.jpg','img/'+n+'.jpg']; });
     var notPicnic={29:1,39:1,40:1,42:1,45:1,46:1,85:1,91:1};
-    for(var i=96;i<120;i++){ if(notPicnic[i]) continue; pic.push(['img/gal/pic'+pad(i)+'.jpg','img/gal/pic'+pad(i)+'t.jpg']); }
+    for(var i=0;i<120;i++){ if(notPicnic[i]) continue; pic.push(['img/gal/pic'+pad(i)+'.jpg','img/gal/pic'+pad(i)+'t.jpg']); }
     makeGallery('galGrid','galMore',pic,21,'Three Aces picnic');
-    var fd=[]; for(var j=0;j<9;j++) fd.push(['img/fdg/fd'+pad(j)+'.jpg','img/fdg/fd'+pad(j)+'t.jpg']);
+    var fd=[]; for(var j=0;j<10;j++) fd.push(['img/fdg/fd'+pad(j)+'.jpg','img/fdg/fd'+pad(j)+'t.jpg']);
     makeGallery('fdGrid','fdMore',fd,12,'Christmas food drive');
   })();
 
