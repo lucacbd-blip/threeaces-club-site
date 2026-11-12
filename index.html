@@ -1345,6 +1345,7 @@
     var N=items.length, shown=0, grid=document.getElementById(gridId), more=document.getElementById(moreId);
     if(!grid) return;
     function render(upto){ var h=''; for(var i=shown;i<upto;i++) h+='<button type="button" data-i="'+i+'" aria-label="Open photo '+(i+1)+' of '+N+'"><img src="'+items[i][1]+'" alt="'+label+' photo '+(i+1)+'" loading="lazy"></button>'; grid.insertAdjacentHTML('beforeend',h); shown=upto; if(more){ if(shown>=N) more.hidden=true; else { more.hidden=false; more.textContent='Show all '+N+' photos'; } } }
+    grid.addEventListener('error',function(e){ var im=e.target; if(im&&im.tagName==='IMG'&&im.parentNode&&im.parentNode.tagName==='BUTTON') im.parentNode.style.display='none'; },true);
     render(Math.min(SHOW,N));
     if(more) more.addEventListener('click',function(){ render(N); });
     if(grid.classList.contains('fdgal')){ var ROW=parseFloat(getComputedStyle(grid).getPropertyValue('--row'))||170; grid.addEventListener('load',function(e){ var im=e.target; if(im.tagName!=='IMG'||!im.naturalWidth) return; var r=im.naturalWidth/im.naturalHeight; im.parentNode.style.flexGrow=r*100; im.parentNode.style.flexBasis=(r*ROW)+'px'; },true); }
@@ -1369,7 +1370,7 @@
     function pad(n){ return ('00'+n).slice(-3); }
     var pic=['g_kids','g_sponsors','g_bocce','g_ironman','g_pasta','g_tent2','g_plaque'].map(function(n){ return ['img/'+n+'.jpg','img/'+n+'.jpg']; });
     var notPicnic={29:1,39:1,40:1,42:1,45:1,46:1,85:1,91:1};
-    for(var i=0;i<120;i++){ if(notPicnic[i]) continue; pic.push(['img/gal/pic'+pad(i)+'.jpg','img/gal/pic'+pad(i)+'t.jpg']); }
+    for(var i=96;i<120;i++){ if(notPicnic[i]) continue; pic.push(['img/gal/pic'+pad(i)+'.jpg','img/gal/pic'+pad(i)+'t.jpg']); }
     makeGallery('galGrid','galMore',pic,21,'Three Aces picnic');
     var fd=[]; for(var j=0;j<9;j++) fd.push(['img/fdg/fd'+pad(j)+'.jpg','img/fdg/fd'+pad(j)+'t.jpg']);
     makeGallery('fdGrid','fdMore',fd,12,'Christmas food drive');
